@@ -1,0 +1,83 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F5FCFF;
+}
+
+input:disabled {
+    color: blue;
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    text-align: center;
+    line-height: 30px;
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+}
+
+.box {
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column
+}
+
+.container {
+    /*display: grid;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+
+.darkCell {
+    background-color: #A9A9A9;
+}
+
+.lightCell {
+    background-color: #EBF3E8;
+}
+
+.buttonContainer {
+    margin-top: 10px;
+    display: flex;
+    /*!* Ensure buttons are always displayed *!*/
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropDown {
+    width: 100px;
+    /*height: 30px;*/
+}
+
+.result {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
