@@ -98,7 +98,7 @@ def generate_random_sudoku(base, difficult):
     for line in board:
         print(line)
 
-    if base <= 3:
+    if base <= 4:
         solved = [*islice(fast_check(board, base), 2)]
         # print(len(solved))
         while len(solved) > 1:

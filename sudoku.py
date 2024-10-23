@@ -1,6 +1,6 @@
-from dash import Dash, dcc, html, Input, Output, State, callback, ClientsideFunction
+from dash import Dash, dcc, html, Input, Output, State, callback, ClientsideFunction, no_update
 from assets.utils import sudoku_board, generate_random_sudoku
-
+from sudoku_solver import SudokuSolver
 
 app = Dash(__name__)
 app.layout = html.Div(
@@ -16,6 +16,8 @@ app.layout = html.Div(
             html.Div('Difficulty'),
             dcc.Dropdown(['Easy', 'Medium', 'Hard'], 'Medium', id='sudoku_difficulty', clearable=False,
                          className='dropDown'),
+        ]),
+        html.Div(className='buttonContainer', children=[
             html.Button('Solve', id='solve_button', n_clicks=0),
             html.Button('Reset', id='reset_button', n_clicks=0),
         ]),
@@ -39,6 +41,15 @@ def reset_board(size, n_clicks, difficulty):
     base = int(size ** 0.5)
     return generate_random_sudoku(base, difficulty_value[difficulty])
 
+
+@callback(Output('puzzle', 'data', allow_duplicate=True),
+          Input('solve_button', 'n_clicks'),
+          State('sudoku_size', 'value'),
+          State('puzzle', 'data'),
+          prevent_initial_call=True)
+def solve_board(n_clicks, size, puzzle):
+    solver = SudokuSolver(size=size, fixed=puzzle)
+    return solver.solution
 
 # @callback(
 #     [Output(f'{row}-{col}', 'value') for row in range(side) for col in range(side)],
