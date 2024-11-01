@@ -63,22 +63,26 @@ def solve_board(n_clicks, size, puzzle):
           Input('upload_sudoku', 'contents'),
           State('upload_sudoku', 'filename'),
           State('upload_sudoku', 'last_modified'),
+          State('sudoku_size', 'value'),
           prevent_initial_call=True)
-def upload_sudoku(contents, filename, last_modified):
+def upload_sudoku(contents, filename, last_modified, sudoku_size):
     if contents is not None:
 
         content_type, content_string = contents.split(',')
         decoded = base64.b64decode(content_string)
-        data = []
+        data = [[0 for _ in range(sudoku_size)] for _ in range(sudoku_size)]
+        df = pd.DataFrame(data)
         try:
             if 'csv' in filename:
                 # Assume that the user uploaded a CSV file
-                data = pd.read_csv(io.StringIO(decoded.decode('utf-8')), header=None, index_col=False).values.tolist()
+                df = pd.read_csv(io.StringIO(decoded.decode('utf-8')), header=None, index_col=False)
             elif 'xls' in filename:
                 # Assume that the user uploaded an Excel file
-                data = pd.read_excel(io.BytesIO(decoded), header=None, index_col=None).values.tolist()
+                df = pd.read_excel(io.BytesIO(decoded), header=None, index_col=None)
         except Exception as e:
             print(e)
+        df.fillna(value=0, inplace=True)
+        data = df.values.tolist()
         return data
 
 # @callback(
