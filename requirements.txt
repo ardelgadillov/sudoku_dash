@@ -2,3 +2,4 @@ dash==2.17.1
 pandas==2.2.3
 Pyomo==6.6.0
 highspy~=1.7.1.dev1
+gunicorn
