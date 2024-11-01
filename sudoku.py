@@ -8,6 +8,7 @@ from dash import Dash, dcc, html, Input, Output, State, callback, ClientsideFunc
 from sudoku_solver import SudokuSolver
 
 app = Dash(__name__)
+server = app.server
 app.layout = html.Div(
     [
         dcc.Store(id='puzzle'),
@@ -103,4 +104,4 @@ app.clientside_callback(
 )
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
