@@ -1,11 +1,11 @@
+import logging.config
+import os
+from itertools import islice
+
+import pandas as pd
 import pyomo.environ as pyo
 from pyomo.core.util import quicksum
 from pyomo.opt import SolverFactory
-import pandas as pd
-import requests
-from itertools import islice
-import os
-import logging.config
 
 
 # 'application' code

@@ -3,10 +3,8 @@ import datetime
 import io
 
 import pandas as pd
-
-from dash import Dash, dcc, html, Input, Output, State, callback, ClientsideFunction, no_update
 from assets.utils import sudoku_board, generate_random_sudoku
-from sqlalchemy import false
+from dash import Dash, dcc, html, Input, Output, State, callback, ClientsideFunction, no_update
 from sudoku_solver import SudokuSolver
 
 app = Dash(__name__)
