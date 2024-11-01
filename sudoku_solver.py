@@ -31,7 +31,7 @@ class SudokuSolver:
         self.model = self.sudoku_model()
 
         if fixed is not None:
-            print(fixed)
+            # print(fixed)
             self.solve()
 
     def sudoku_model(self):
@@ -104,11 +104,11 @@ class SudokuSolver:
         self.logger.info('Solving sudoku')
 
         self.decode()
-        with open('model.txt', 'w') as output_file:
-            self.model.pprint(output_file)
+        # with open('model.txt', 'w') as output_file:
+        #     self.model.pprint(output_file)
         opt = pyo.SolverFactory('appsi_highs')
         opt.solve(self.model)
         self.encode()
 
         self.logger.info('Sudoku solution')
-        print(pd.DataFrame(self.solution))
+        # print(pd.DataFrame(self.solution))

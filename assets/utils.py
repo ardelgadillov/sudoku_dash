@@ -84,19 +84,19 @@ def generate_random_sudoku(base, difficult):
     board = [[nums[pattern(r, c, base)] for c in cols] for r in rows]
     # copy solution
     solution = copy.deepcopy(board)
-    print('solution')
-    for line in solution:
-        print(line)
+    # print('solution')
+    # for line in solution:
+    #     print(line)
 
     squares = side * side
     empties = int(squares * difficult)
-    print(empties)
+    # print(empties)
     for p in random.sample(range(squares), empties):
         board[p // side][p % side] = 0
 
-    print('board')
-    for line in board:
-        print(line)
+    # print('board')
+    # for line in board:
+    #     print(line)
 
     if base <= 4:
         solved = [*islice(fast_check(board, base), 2)]
@@ -109,8 +109,8 @@ def generate_random_sudoku(base, difficult):
             solved = [*islice(fast_check(board, base), 2)]
             # print(len(solved))
 
-    numSize = len(str(side))
-    for line in board:
-        print(*(f"{n or '.':{numSize}} " for n in line))
+    # numSize = len(str(side))
+    # for line in board:
+    #     print(*(f"{n or '.':{numSize}} " for n in line))
 
     return board

@@ -1,5 +1,12 @@
+import base64
+import datetime
+import io
+
+import pandas as pd
+
 from dash import Dash, dcc, html, Input, Output, State, callback, ClientsideFunction, no_update
 from assets.utils import sudoku_board, generate_random_sudoku
+from sqlalchemy import false
 from sudoku_solver import SudokuSolver
 
 app = Dash(__name__)
@@ -19,7 +26,8 @@ app.layout = html.Div(
         ]),
         html.Div(className='buttonContainer', children=[
             html.Button('Solve', id='solve_button', n_clicks=0),
-            html.Button('Reset', id='reset_button', n_clicks=0),
+            dcc.Upload(html.Button('Upload Sudoku'), id='upload_sudoku'),
+            html.Button('Generate Random Sudoku', id='reset_button', n_clicks=0),
         ]),
     ],
     id='document'
@@ -50,6 +58,29 @@ def reset_board(size, n_clicks, difficulty):
 def solve_board(n_clicks, size, puzzle):
     solver = SudokuSolver(size=size, fixed=puzzle)
     return solver.solution
+
+
+@callback(Output('puzzle', 'data', allow_duplicate=True),
+          Input('upload_sudoku', 'contents'),
+          State('upload_sudoku', 'filename'),
+          State('upload_sudoku', 'last_modified'),
+          prevent_initial_call=True)
+def upload_sudoku(contents, filename, last_modified):
+    if contents is not None:
+
+        content_type, content_string = contents.split(',')
+        decoded = base64.b64decode(content_string)
+        data = []
+        try:
+            if 'csv' in filename:
+                # Assume that the user uploaded a CSV file
+                data = pd.read_csv(io.StringIO(decoded.decode('utf-8')), header=None, index_col=False).values.tolist()
+            elif 'xls' in filename:
+                # Assume that the user uploaded an Excel file
+                data = pd.read_excel(io.BytesIO(decoded), header=None, index_col=None).values.tolist()
+        except Exception as e:
+            print(e)
+        return data
 
 # @callback(
 #     [Output(f'{row}-{col}', 'value') for row in range(side) for col in range(side)],
