@@ -1,3 +1,4 @@
+import logging
 import base64
 import datetime
 import io
@@ -36,6 +37,7 @@ app.layout = html.Div(
 @callback(Output('sudoku_container', 'children'),
           Input('sudoku_size', 'value'))
 def create_board(sudoku_size):
+    logging.info('Create Sudoku Board')
     return sudoku_board(sudoku_size)
 
 
@@ -44,6 +46,7 @@ def create_board(sudoku_size):
           Input('reset_button', 'n_clicks'),
           Input('sudoku_difficulty', 'value'))
 def reset_board(size, n_clicks, difficulty):
+    logging.info('Reset Sudoku Board')
     difficulty_value = {'Easy': 0.4, 'Medium': 0.6, 'Hard': 0.8}
     base = int(size ** 0.5)
     return generate_random_sudoku(base, difficulty_value[difficulty])
@@ -55,6 +58,7 @@ def reset_board(size, n_clicks, difficulty):
           State('puzzle', 'data'),
           prevent_initial_call=True)
 def solve_board(n_clicks, size, puzzle):
+    logging.info('Solve Sudoku Board')
     solver = SudokuSolver(size=size, fixed=puzzle)
     return solver.solution
 
@@ -66,6 +70,7 @@ def solve_board(n_clicks, size, puzzle):
           State('sudoku_size', 'value'),
           prevent_initial_call=True)
 def upload_sudoku(contents, filename, last_modified, sudoku_size):
+    logging.info('Upload Sudoku Board')
     if contents is not None:
 
         content_type, content_string = contents.split(',')
